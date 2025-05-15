@@ -4,18 +4,18 @@ using namespace std;
 
 class Node
 {
-    public:
-        int noMhs;
-        Node *next;
-        Node *prev;
+public:
+    int noMhs;
+    Node *next;
+    Node *prev;
 };
 
 class DoubleLinkedList
 {
-    private:
-    Node * START;
+private:
+    Node *START;
 
-    public:
+public:
     DoubleLinkedList()
     {
         START = NULL;
@@ -50,7 +50,6 @@ class DoubleLinkedList
             return;
         }
 
-
         Node *current = START;
         while (current->next != NULL && current->next->noMhs < nim)
         {
@@ -62,17 +61,17 @@ class DoubleLinkedList
             cout << "\nDuplicate roll numbers not allowed" << endl;
             return;
         }
-        
+
         newNode->next = current->next;
         newNode->next = current;
 
         if (current->next != NULL)
             current->next->prev = newNode;
 
-            current->next = newNode;
+        current->next = newNode;
     }
 
-    void hapus ()
+    void hapus()
     {
         if (START == NULL)
         {
@@ -84,10 +83,10 @@ class DoubleLinkedList
         int rollNo;
         cin >> rollNo;
 
-        Node * current = START;
+        Node *current = START;
 
         while (current != NULL && current->noMhs != rollNo)
-                current = current->next;
+            current = current->next;
 
         if (current == NULL)
         {
@@ -103,15 +102,15 @@ class DoubleLinkedList
         }
         else
         {
-            current ->prev->next = current->next;
+            current->prev->next = current->next;
 
-            if(current->next != NULL)
+            if (current->next != NULL)
                 current->next->prev = current->prev;
         }
-        
+
         delete current;
         cout << "Record with roll number " << rollNo << "deleted" << endl;
-     }
+    }
     void traverse()
     {
         if (START == NULL)
@@ -152,11 +151,86 @@ class DoubleLinkedList
         while (currentNode != NULL)
         {
             cout << i + 1 << "." << currentNode->noMhs << " " << endl;
-            
-        currentNode = currentNode->prev;
-        i--;
+
+            currentNode = currentNode->prev;
+            i--;
         }
     }
 
+    void searchData()
+    {
+        if (START == NULL)
+        {
+            cout << "\nList is empty" << endl;
+            return;
+        }
 
+        int rollNo;
+        cout << "\nEnter the roll number to search: ";
+        cin >> rollNo;
+
+        Node *current = START;
+
+        while (current != NULL && current->noMhs != rollNo)
+            current = current->next;
+
+        if (current == NULL)
+        {
+            cout << "Record not found\n";
+        }
+        else
+        {
+            cout << "Record found\n";
+            cout << "Roll Number: " << current->noMhs << endl;
+        }
+    }
+};
+
+int main()
+{
+    DoubleLinkedList list;
+    char choice;
+
+    do
+    {
+
+        cout << "\nMenu:\n";
+        cout << "1. Add Record\n";
+        cout << "2. Delete Record\n";
+        cout << "3. View Ascending\n";
+        cout << "4. View Descending\n";
+        cout << "5. Search Record\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+
+        cin >> choice;
+
+        switch (choice)
+        {
+        case '1':
+            list.addNode();
+            break;
+        case '2':
+            list.hapus();
+            break;
+        case '3':
+            list.traverse();
+            break;
+        case '4':
+            list.revtraverse();
+            break;
+        case '5':
+            list.searchData();
+            break;
+        case '6':
+            return 0;
+        default:
+            cout << "Invalid option\n";
+        }
+        cout << "\nPress Enter to continue...";
+        cin.ignore();
+        cin.get();
+        cout << endl;
+        system("clear");
+    } while (choice != '6');
 }
